@@ -277,9 +277,9 @@ tail -f script/prediction/slurm/01_confusion_matrix.out
 
 | Script | GPUs | CPUs | Time limit | Partition |
 |--------|------|------|------------|-----------|
-| `fine_tuning.sh` | 4 | 32 | 20 hours | gpu |
-| `00_prediction.sh` | 1 | 32 | 2 hours | gpu |
-| `01_confusion_matrix.sh` | 1 | 32 | 2 hours | gpu |
+| `fine_tuning.sh` | 4 | 32 | X hours | gpu |
+| `00_prediction.sh` | 1 | 32 | X hours | gpu |
+| `01_confusion_matrix.sh` | 1 | 32 | X hours | gpu |
 
 Adjust the `--time` parameter in the `.sh` files if your dataset is significantly larger or smaller.
 
