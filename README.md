@@ -221,7 +221,7 @@ uv run script/prediction/01_confusion_matrix.py
 
 ## Running on a Supercomputer (SLURM)
 
-Each Python script has a matching `.sh` file configured for the [MeluXina](https://docs.lxp.lu/) supercomputer. The shell scripts handle module loading, environment activation, and HuggingFace cache configuration.
+Each Python script has a matching `.sh` file configured for HPC usage. The shell scripts handle module loading, environment activation, and HuggingFace cache configuration.
 
 ### First-time setup on the supercomputer
 
