@@ -19,7 +19,6 @@
 ### Output:
 ### - Fine-tuned model saved to MODEL_OUTPUT_DIR
 ### - Training/eval metrics logged to MODEL_OUTPUT_DIR
-### - Processed dataset cached to DATASET_CACHE_DIR
 
 from datetime import datetime
 from pathlib import Path
@@ -27,7 +26,7 @@ from pathlib import Path
 import evaluate
 import numpy as np
 import torch
-from datasets import load_dataset, load_from_disk
+from datasets import load_dataset
 from torchvision.transforms import (
     CenterCrop,
     Compose,
@@ -49,12 +48,11 @@ from transformers import (
 # =============================================================================
 
 # Task
-TASK_NAME = "skin_color"  # enter yout task name here (e.g., "skin_color")
+TASK_NAME = "skin_color"  # enter your task name here (e.g., "skin_color")
 
 # Paths
 PROJECT_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_DIR / "data" / "images_train" / TASK_NAME
-DATASET_CACHE_DIR = PROJECT_DIR / "output" / "dataset" / TASK_NAME
 MODEL_OUTPUT_DIR = PROJECT_DIR / "output" / "finetuned_model" / TASK_NAME
 
 # Pre-trained base model
@@ -62,19 +60,20 @@ BASE_MODEL_HUB_ID = "google/vit-base-patch16-224-in21k"
 BASE_MODEL_DIR = PROJECT_DIR / "model" / "google-vit-base-patch16-224-in21k"
 
 # Training hyperparameters
-BATCH_SIZE = 16        # number of images per GPU per training step
-NUM_EPOCHS = 4         # full passes over the training set
-LEARNING_RATE = 2e-4   # step size for the optimizer (AdamW)
-SAVE_STEPS = 100       # save a checkpoint every N training steps
-EVAL_STEPS = 100       # run validation every N training steps
-LOGGING_STEPS = 10     # log training loss every N steps
-SAVE_TOTAL_LIMIT = 2   # keep only the N most recent checkpoints on disk
-TEST_SIZE = 0.15       # fraction of data reserved for validation
+BATCH_SIZE = 16  # number of images per GPU per training step
+NUM_EPOCHS = 4  # full passes over the training set
+LEARNING_RATE = 2e-4  # step size for the optimizer (AdamW)
+SAVE_STEPS = 100  # save a checkpoint every N training steps
+EVAL_STEPS = 100  # run validation every N training steps
+LOGGING_STEPS = 10  # log training loss every N steps
+SAVE_TOTAL_LIMIT = 2  # keep only the N most recent checkpoints on disk
+TEST_SIZE = 0.15  # fraction of data reserved for validation
 
 
 # =============================================================================
 # Utilities
 # =============================================================================
+
 
 def print_header(title: str, char: str = "=") -> None:
     print(char * 80, flush=True)
@@ -105,6 +104,7 @@ def ensure_base_model():
 # Data Preparation
 # =============================================================================
 
+
 def load_and_split_dataset():
     print_header("Data Preparation")
 
@@ -112,13 +112,6 @@ def load_and_split_dataset():
     print_subheader("Loading images from ImageFolder")
     ds = load_dataset("imagefolder", data_dir=str(DATA_DIR), split="train")
     print(f"  Total images: {len(ds)}", flush=True)
-
-    # Cache dataset to disk
-    print(f"  Saving dataset to: {DATASET_CACHE_DIR}", flush=True)
-    ds.save_to_disk(str(DATASET_CACHE_DIR))
-
-    # Reload from cache
-    ds = load_from_disk(str(DATASET_CACHE_DIR))
 
     # Train/validation split
     print_subheader(f"Splitting data (test_size={TEST_SIZE})")
@@ -137,6 +130,7 @@ def load_and_split_dataset():
 # Image Transforms
 # =============================================================================
 
+
 def build_transforms(feature_extractor):
     print_subheader("Building image transforms")
 
@@ -147,19 +141,23 @@ def build_transforms(feature_extractor):
     img_size = feature_extractor.size["height"]
     print(f"  Image size: {img_size}x{img_size}", flush=True)
 
-    train_transforms = Compose([
-        RandomResizedCrop(img_size),
-        RandomHorizontalFlip(),
-        ToTensor(),
-        normalize,
-    ])
+    train_transforms = Compose(
+        [
+            RandomResizedCrop(img_size),
+            RandomHorizontalFlip(),
+            ToTensor(),
+            normalize,
+        ]
+    )
 
-    val_transforms = Compose([
-        Resize(img_size),
-        CenterCrop(img_size),
-        ToTensor(),
-        normalize,
-    ])
+    val_transforms = Compose(
+        [
+            Resize(img_size),
+            CenterCrop(img_size),
+            ToTensor(),
+            normalize,
+        ]
+    )
 
     return train_transforms, val_transforms
 
@@ -190,6 +188,7 @@ def apply_transforms(data, train_transforms, val_transforms):
 # Model Setup
 # =============================================================================
 
+
 def load_model(labels):
     print_header("Model Setup")
 
@@ -214,6 +213,7 @@ def load_model(labels):
 # =============================================================================
 # Training
 # =============================================================================
+
 
 def train_model(model, feature_extractor, train_ds, val_ds):
     print_header("Training")
@@ -241,6 +241,7 @@ def train_model(model, feature_extractor, train_ds, val_ds):
         logging_steps=LOGGING_STEPS,
         learning_rate=LEARNING_RATE,
         save_total_limit=SAVE_TOTAL_LIMIT,
+        dataloader_num_workers=8,  # parallel data loading (adjust up to CPUs available)
         remove_unused_columns=False,
         push_to_hub=False,
         report_to="tensorboard",
@@ -261,7 +262,7 @@ def train_model(model, feature_extractor, train_ds, val_ds):
     print(f"  Batch size: {BATCH_SIZE}", flush=True)
     print(f"  Epochs: {NUM_EPOCHS}", flush=True)
     print(f"  Learning rate: {LEARNING_RATE}", flush=True)
-    print(f"  FP16: True", flush=True)
+    print("  FP16: True", flush=True)
 
     train_results = trainer.train()
 
@@ -287,6 +288,7 @@ def train_model(model, feature_extractor, train_ds, val_ds):
 # =============================================================================
 # Main Execution
 # =============================================================================
+
 
 def main():
     print_header(f"ViT Fine-tuning: {TASK_NAME}")
