@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --gpus-per-task=4
 #SBATCH --cpus-per-task=32
-#SBATCH --time=20:00:00
+#SBATCH --time=01:00:00
 #SBATCH --account=p200804
 #SBATCH --qos=default
 
@@ -25,7 +25,7 @@ module --force purge
 module load env/release/2024.1
 module load CUDA/12.6.0
 module load Python/3.11.10-GCCcore-13.3.0
-source "${PROJECT_DIR}/.venv/bin/activate"
+source /project/home/p200812/vit/.venv/bin/activate
 
 # =============================================================================
 # Cache (store HuggingFace models and datasets within the project)
