@@ -1,0 +1,34 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+venv
+
+# Folders
+new_cache_directory
+.cache
+.backup
+.claude
+slurm/
+
+# Files
+CLAUDE.md
+*.jpg
+*.json
+*.arrow
+*.pt
+*.bin
+*.safetensors
+*.pth
+
+# TensorBoard logs
+output/finetuned_model/skin_color/runs/Feb19_11-26-29_julio-ThinkPad-X1-Carbon-Gen-11/events.out.tfevents.1771496789.julio-ThinkPad-X1-Carbon-Gen-11.848802.0
+output/finetuned_model/skin_color/runs/Feb19_11-26-29_julio-ThinkPad-X1-Carbon-Gen-11/events.out.tfevents.1771499286.julio-ThinkPad-X1-Carbon-Gen-11.848802.1
+output/confusion_matrix/skin_color/confusion_matrix.png
+output/prediction/skin_color/predictions.csv

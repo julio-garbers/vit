@@ -1,0 +1,1 @@
+# Create the category folders here and put the images in the respective folders
