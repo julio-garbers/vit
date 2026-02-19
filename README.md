@@ -37,7 +37,6 @@ vit/
 ├── model/
 │   └── google-vit-base-patch16-224-in21k/  # Pre-trained base model (auto-downloaded)
 ├── output/
-│   ├── dataset/<task>/          # Cached processed dataset
 │   ├── finetuned_model/<task>/  # Fine-tuned model weights and config
 │   ├── prediction/<task>/       # Prediction CSV
 │   └── confusion_matrix/<task>/ # Confusion matrix plot
@@ -309,7 +308,6 @@ After running the full pipeline, your `output/` directory will contain:
 
 ```
 output/
-├── dataset/<task>/                  # Cached HuggingFace dataset
 ├── finetuned_model/<task>/          # Fine-tuned model
 │   ├── config.json                  # Model architecture and label mapping
 │   ├── model.safetensors            # Model weights
