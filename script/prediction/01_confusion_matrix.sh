@@ -11,11 +11,11 @@
 #SBATCH --qos=default
 
 # =============================================================================
-# Paths (relative to repo root — run sbatch from there)
+# Paths (run sbatch from the repo root)
 # =============================================================================
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PROJECT_DIR="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+PROJECT_DIR="${SLURM_SUBMIT_DIR:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
+SCRIPT_DIR="${PROJECT_DIR}/script/prediction"
 
 # =============================================================================
 # Environment
