@@ -99,20 +99,20 @@ The base model (`google/vit-base-patch16-224-in21k`) is downloaded automatically
 Organize your labeled images into subfolders inside `data/images_train/<task>/`, where each subfolder name is a class label:
 
 ```
-data/images_train/skin_color/
-├── black/
+data/images_train/pet_type/
+├── cat/
 │   ├── image001.jpg
 │   ├── image002.jpg
 │   └── ...
-├── mix/
+├── dog/
 │   ├── image001.jpg
 │   └── ...
-└── white/
+└── bird/
     ├── image001.jpg
     └── ...
 ```
 
-- Each subfolder name becomes a class label (e.g., `black`, `mix`, `white`).
+- Each subfolder name becomes a class label (e.g., `cat`, `dog`, `bird`).
 - Supported image formats: `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`, `.webp`.
 - Every class folder must contain at least one image.
 - There is no minimum dataset size, but a few hundred images per class is recommended.
@@ -122,7 +122,7 @@ data/images_train/skin_color/
 Place the unlabeled images you want to classify into `data/images_inf/<task>/` as a flat folder (no subfolders needed):
 
 ```
-data/images_inf/skin_color/
+data/images_inf/pet_type/
 ├── photo_a.jpg
 ├── photo_b.png
 └── ...
@@ -152,7 +152,7 @@ uv run script/fine_tuning/fine_tuning.py
 **What to expect:** On CPU, a small dataset (~700 images, 4 epochs) takes roughly 40 minutes. On a GPU, the same run completes in a few minutes.
 
 **Before running**, open `script/fine_tuning/fine_tuning.py` and set:
-- `TASK_NAME` — your task identifier (e.g., `"skin_color"`). Must match the folder name under `data/images_train/`.
+- `TASK_NAME` — your task identifier (e.g., `"pet_type"`). Must match the folder name under `data/images_train/`.
 
 **Optional adjustments** (all at the top of the script):
 
@@ -190,10 +190,10 @@ uv run script/prediction/00_prediction.py
 
 **Output CSV format:**
 
-| filename | predicted_label | prob_black | prob_mix | prob_white |
-|----------|----------------|------------|----------|------------|
-| photo_a.jpg | black | 0.9213 | 0.0512 | 0.0275 |
-| photo_b.png | white | 0.0134 | 0.0891 | 0.8975 |
+| filename | predicted_label | prob_cat | prob_dog | prob_bird |
+|----------|----------------|----------|----------|-----------|
+| photo_a.jpg | cat | 0.9213 | 0.0512 | 0.0275 |
+| photo_b.png | bird | 0.0134 | 0.0891 | 0.8975 |
 
 The probability columns are named dynamically based on the class labels in your dataset.
 

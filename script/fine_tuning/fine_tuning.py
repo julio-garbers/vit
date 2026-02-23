@@ -14,7 +14,7 @@
 ###
 ### Input:
 ### - Image folder at DATA_DIR, organized as subfolders per class label
-###   (e.g., data/images_train/skin_color/black/, data/images_train/skin_color/white/)
+###   (e.g., data/images_train/pet_type/cat/, data/images_train/pet_type/dog/)
 ###
 ### Output:
 ### - Fine-tuned model saved to MODEL_OUTPUT_DIR
@@ -48,7 +48,7 @@ from transformers import (
 # =============================================================================
 
 # Task
-TASK_NAME = "skin_color"  # enter your task name here (e.g., "skin_color")
+TASK_NAME = "pet_type"  # enter your task name here (e.g., "pet_type")
 
 # Paths
 PROJECT_DIR = Path(__file__).resolve().parents[2]

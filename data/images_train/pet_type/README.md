@@ -5,22 +5,22 @@ Place labeled training images here, organized into one subfolder per class.
 ## Expected structure
 
 ```
-images_train/skin_color/
-├── black/
+images_train/pet_type/
+├── cat/
 │   ├── image1.jpg
 │   ├── image2.jpg
 │   └── ...
-├── mix/
+├── dog/
 │   ├── image1.jpg
 │   └── ...
-└── white/
+└── bird/
     ├── image1.jpg
     └── ...
 ```
 
 ## Rules
 
-- Each subfolder name becomes a class label (e.g., `black`, `mix`, `white`).
+- Each subfolder name becomes a class label (e.g., `cat`, `dog`, `bird`).
 - Every class folder must contain at least one image.
 - Supported formats: `.jpg`, `.jpeg`, `.png`, `.bmp`, `.tiff`, `.webp`.
 - A few hundred images per class is recommended for good results.

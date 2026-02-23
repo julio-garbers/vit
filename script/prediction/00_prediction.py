@@ -12,7 +12,7 @@
 ### 5. Save results to CSV
 ###
 ### Input:
-### - Unlabeled images at INF_DIR (e.g., data/images_inf/skin_color/)
+### - Unlabeled images at INF_DIR (e.g., data/images_inf/pet_type/)
 ### - Fine-tuned model at FINETUNED_MODEL_DIR
 ###
 ### Output:
@@ -46,7 +46,7 @@ from transformers import (
 # =============================================================================
 
 # Task
-TASK_NAME = "skin_color"
+TASK_NAME = "pet_type"
 
 # Paths
 PROJECT_DIR = Path(__file__).resolve().parents[2]

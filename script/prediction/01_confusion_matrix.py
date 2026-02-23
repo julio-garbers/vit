@@ -12,7 +12,7 @@
 ### 5. Save confusion matrix plot and metrics to OUTPUT_DIR
 ###
 ### Input:
-### - Labeled images at DATA_DIR (e.g., data/images_train/skin_color/{black,mix,white}/)
+### - Labeled images at DATA_DIR (e.g., data/images_train/pet_type/{cat,dog,bird}/)
 ### - Fine-tuned model at FINETUNED_MODEL_DIR
 ###
 ### Output:
@@ -46,7 +46,7 @@ from transformers import (
 # =============================================================================
 
 # Task
-TASK_NAME = "skin_color"
+TASK_NAME = "pet_type"
 
 # Paths
 PROJECT_DIR = Path(__file__).resolve().parents[2]
